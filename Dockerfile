@@ -4,6 +4,7 @@ WORKDIR /mktxp
 COPY . .
 RUN pip install ./ && apk add nano 
 COPY test.conf /root/mktxp/mktxp.conf
+COPY test.sh /app/
+RUN chmod 755 /app/*
 EXPOSE 49090
-ENTRYPOINT ["/usr/local/bin/mktxp"]
-CMD ["print", "-en 'Main-Router' -dc"]
+ENTRYPOINT ["/app/test.sh"]
