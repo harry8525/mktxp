@@ -44,11 +44,20 @@ class BaseCollector:
     def gauge_collector(name, decription, router_records, metric_key, metric_labels=[], add_id_labels = True):
         if add_id_labels:
             BaseCollector._add_id_labels(metric_labels)
+        
         collector = GaugeMetricFamily(f'mktxp_{name}', decription, labels=metric_labels)
 
-        for router_record in router_records:       
-            label_values = [router_record.get(label) for label in metric_labels]
-            collector.add_metric(label_values, router_record.get(metric_key, 0))
+        for router_record in router_records:
+            # Only add values that exist
+            label_values = []
+            for label in metric_labels:
+                record = router_record.get(label)
+                if record:
+                    label_values.append(label_values)
+            
+            record = router_record.get(metric_key, 0)
+            if record:
+                collector.add_metric(label_values, record)
         return collector
 
 
